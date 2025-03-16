@@ -1,31 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import InputComponent from './components/InputComponent';
+import TestViewFormObjectComponent from './components/TestViewFormObjectComponent';
+import { defaultSportBox, ISportBox } from './models/sharedModels';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const methods = useForm<ISportBox>(
+    {
+      defaultValues: defaultSportBox,
+      mode: "all"
+    }
+  )
+
+  const { control } = methods
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <FormProvider {...methods}>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <InputComponent value={value} onChange={onChange} />
+          )}
+        />
+        <Controller
+          name="adress"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <InputComponent value={value} onChange={onChange} />
+          )}
+        />
+        <Controller
+          name="description"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <InputComponent value={value} onChange={onChange} />
+          )}
+        />
+        <TestViewFormObjectComponent />
+      </FormProvider>
+
     </>
   )
 }
