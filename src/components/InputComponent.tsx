@@ -1,20 +1,33 @@
+import { TextField } from "@mui/material"
+import { FieldError } from "react-hook-form"
+
 interface IProps {
-    value: string,
-    onChange: (text: string) => void
+    valueInput: string,
+    labelInput: string,
+    defaultValue ?: string,
+    errorInput: FieldError | undefined,
+    onChangeInput: (text: string) => void
 }
 
 const InputComponent = (props: IProps) => {
-    const onChangeValueHandler = (e: any) => {
-        props.onChange(e.target.value)
+    const onChangeValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        props.onChangeInput(e.target.value)
     }
     return (
         <>
-            <input
-                type="text"
-                value={props.value}
-                onChange={onChangeValueHandler}>
 
-            </input>
+
+            <TextField
+                error={!!props.errorInput}
+                label={props.labelInput}
+                defaultValue={props.defaultValue?props.defaultValue : "Бельцы"}
+                helperText={props.errorInput?.message}
+                value={props.valueInput}
+                onChange={onChangeValueHandler}
+            />
+
+            
+           
         </>
     )
 }
